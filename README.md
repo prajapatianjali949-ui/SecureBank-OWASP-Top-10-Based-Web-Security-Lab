@@ -136,16 +136,17 @@ http://127.0.0.1:5000
 ---
 
 # 📸 Screenshots
+### 1. Vulnerable Login & SQL Injection
+![SQL Injection](screenshots/sql-injection.png)
 
-Add screenshots here after uploading project images.
+### 2. Secure Mode Protection
+![Secure Login](screenshots/secure-login.png)
 
-Example:
-- Login Page
-- Dashboard
-- SQL Injection Demo
-- Admin Panel
-- Transfer Module
-- Ping Tool
+### 3. Banking Dashboard
+![Dashboard](screenshots/secure-dashboard.png)
+
+### 4. Admin Panel
+![Admin Panel](screenshots/admin-panel.png)
 
 ---
 

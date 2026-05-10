@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | SecureBank</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color:#f5f7fa;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <span class="navbar-brand">🏦 SecureBank</span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if mode == "vulnerable" %}
+                <span class="badge bg-danger">🔴 Vulnerable</span>
+            {% else %}
+                <span class="badge bg-success">🟢 Secure</span>
+            {% endif %}
+
+            <!-- 🔄 TOGGLE BUTTON -->
+            <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+                🔄 Switch Mode
+            </a>
+
+            <a href="/dashboard" class="btn btn-light btn-sm">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="card shadow p-4">
+            <h3>🛠 Admin Panel</h3>
+            <hr>
+
+            <div class="table-responsive">
+
+    <table class="table table-hover align-middle">
+
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Customer Name</th>
+                <th>Username</th>
+                <th>Account Number</th>
+                <th>Balance</th>
+                <th>Role</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for u in users %}
+
+            <tr>
+
+                <td>{{ u[0] }}</td>
+
+                <td>
+                    {% if u[1] == "admin" %}
+                        Admin User
+                    {% elif u[1] == "rahul" %}
+                        Rahul Sharma
+                    {% elif u[1] == "priya" %}
+                        Priya Patel
+                    {% elif u[1] == "amit" %}
+                        Amit Shah
+                    {% elif u[1] == "neha" %}
+                        Neha Verma
+                    {% else %}
+                        Customer
+                    {% endif %}
+                </td>
+
+                <td>{{ u[1] }}</td>
+
+                <td>
+                    XXXX{{ 1000 + u[0] }}
+                </td>
+
+                <td class="text-success fw-bold">
+                    ₹ {{ 50000 + (u[0] * 10000) }}
+                </td>
+
+                <td>
+                    {% if u[1] == "admin" %}
+                        <span class="badge bg-danger">Admin</span>
+                    {% else %}
+                        <span class="badge bg-primary">Customer</span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <span class="badge bg-success">
+                        Active
+                    </span>
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+<!-- ATTACK LOGS -->
+<div class="card shadow p-4 mt-4">
+
+    <h4>
+        <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+        Security Attack Logs
+    </h4>
+
+    <hr>
+
+    <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Time</th>
+                    <th>Attack Type</th>
+                    <th>Target</th>
+                    <th>Status</th>
+                    <th>Risk Level</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>09 May 2026 11:42 AM</td>
+                    <td>SQL Injection</td>
+                    <td>/login</td>
+
+                    <td>
+                        {% if mode == "vulnerable" %}
+                            <span class="badge bg-danger">
+                                Exploited
+                            </span>
+                        {% else %}
+                            <span class="badge bg-success">
+                                Blocked
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            High
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>09 May 2026 11:50 AM</td>
+                    <td>XSS Attack</td>
+                    <td>/profile</td>
+
+                    <td>
+                        {% if mode == "vulnerable" %}
+                            <span class="badge bg-danger">
+                                Executed
+                            </span>
+                        {% else %}
+                            <span class="badge bg-success">
+                                Prevented
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Medium
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>09 May 2026 12:10 PM</td>
+                    <td>CSRF Attempt</td>
+                    <td>/transfer</td>
+
+                    <td>
+                        {% if mode == "vulnerable" %}
+                            <span class="badge bg-danger">
+                                Successful
+                            </span>
+                        {% else %}
+                            <span class="badge bg-success">
+                                Blocked
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Medium
+                        </span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>09 May 2026 12:20 PM</td>
+                    <td>Command Injection</td>
+                    <td>/ping</td>
+
+                    <td>
+                        {% if mode == "vulnerable" %}
+                            <span class="badge bg-danger">
+                                Executed
+                            </span>
+                        {% else %}
+                            <span class="badge bg-success">
+                                Blocked
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-danger">
+                            Critical
+                        </span>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+            <!-- INFO -->
+            <div class="alert alert-warning mt-3" style="font-size: 13px;">
+                <strong>⚠ Access Control:</strong><br>
+
+                {% if mode == "vulnerable" %}
+                    • No role check → any logged-in user can access admin panel<br>
+                    • Sensitive data exposed to normal users
+                {% else %}
+                    • Only admin can access this page<br>
+                    • Unauthorized users are blocked
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

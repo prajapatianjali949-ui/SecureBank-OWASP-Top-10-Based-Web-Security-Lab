@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System Config | SecureBank</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color:#f5f7fa;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <span class="navbar-brand">🏦 SecureBank</span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if mode == "vulnerable" %}
+                <span class="badge bg-danger">🔴 Vulnerable</span>
+            {% else %}
+                <span class="badge bg-success">🟢 Secure</span>
+            {% endif %}
+
+            <!-- 🔄 TOGGLE BUTTON -->
+            <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+                🔄 Switch Mode
+            </a>
+
+            <a href="/dashboard" class="btn btn-light btn-sm">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="card shadow p-4">
+            <h3>⚙️ System Configuration</h3>
+            <hr>
+
+            <pre style="background:black; color:lime; padding:15px;">
+{{ config }}
+            </pre>
+
+            <!-- INFO -->
+            <div class="alert alert-warning mt-3" style="font-size: 13px;">
+                <strong>⚠ Security Misconfiguration:</strong><br>
+
+                {% if mode == "vulnerable" %}
+                    • Sensitive data exposed (SECRET_KEY, paths, debug info)<br>
+                    • Can lead to system compromise
+                {% else %}
+                    • Sensitive configuration is hidden<br>
+                    • Proper security practices applied
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

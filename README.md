@@ -165,7 +165,7 @@ Do NOT use these techniques against real systems without authorization.
 
 Anjali Prajapati
 
-GTU — Mobile Application Development  
+GTU — Information Technology  
 Cybersecurity & Web Security Enthusiast
 
 ---

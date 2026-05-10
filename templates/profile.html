@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile | SecureBank</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color:#f5f7fa;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <span class="navbar-brand">🏦 SecureBank</span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if mode == "vulnerable" %}
+                <span class="badge bg-danger">🔴 Vulnerable</span>
+            {% else %}
+                <span class="badge bg-success">🟢 Secure</span>
+            {% endif %}
+
+            <!-- 🔄 TOGGLE -->
+            <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+                🔄 Switch Mode
+            </a>
+
+            <a href="/dashboard" class="btn btn-light btn-sm">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="card shadow p-4">
+            <h3>👤 User Profile</h3>
+            <hr>
+
+            <!-- User Info -->
+            <p><strong>User ID:</strong> {{ user[0] }}</p>
+            <p><strong>Username:</strong> {{ user[1] }}</p>
+
+            <!-- BIO DISPLAY -->
+            <p><strong>Bio:</strong></p>
+            <div style="border:1px solid #ccc; padding:10px; min-height:50px;">
+
+                {% if mode == "vulnerable" %}
+                    <!-- 🔴 XSS VULNERABLE -->
+                    {{ user[3] | safe }}
+                {% else %}
+                    <!-- 🟢 SECURE -->
+                    {{ user[3] }}
+                {% endif %}
+
+            </div>
+
+            <hr>
+
+            <!-- UPDATE BIO -->
+            <form method="POST">
+                <label class="form-label">Update Bio</label>
+                <textarea name="bio" class="form-control" placeholder="Write something..."></textarea>
+                <button class="btn btn-primary mt-2">Update</button>
+            </form>
+
+            <!-- INFO -->
+            <div class="alert alert-warning mt-3" style="font-size: 13px;">
+                <strong>⚠ Vulnerabilities:</strong><br>
+
+                {% if mode == "vulnerable" %}
+                    • XSS: Scripts execute in browser<br>
+                    • IDOR: URL manipulation allows access to other users
+                {% else %}
+                    • XSS fixed: Output is escaped<br>
+                    • IDOR fixed: Only own profile is accessible
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

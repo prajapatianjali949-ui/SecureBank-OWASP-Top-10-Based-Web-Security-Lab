@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | SecureBank</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            background: linear-gradient(180deg, #0a3d62, #1e5f8a);
+            color: white;
+            padding-top: 20px;
+            transition: 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            padding: 12px 20px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover {
+            background: rgba(255,255,255,0.15);
+            padding-left: 28px;
+        }
+
+        .sidebar a.active {
+            background: rgba(255,255,255,0.25);
+            font-weight: bold;
+        }
+
+        /* Main */
+        .main {
+            margin-left: 240px;
+            padding: 20px;
+            transition: 0.3s;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* Cards */
+        .card {
+            border-radius: 12px;
+            transition: all 0.25s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -240px;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar">
+
+    <h4 class="text-center">
+        <i class="fa-solid fa-building-columns"></i>
+        SecureBank
+    </h4>
+
+    <hr>
+
+    <a href="/dashboard" class="active">
+        <i class="fa-solid fa-house"></i>
+        Dashboard
+    </a>
+
+    <a href="/profile">
+        <i class="fa-solid fa-user"></i>
+        Profile
+    </a>
+
+    <a href="/transfer">
+        <i class="fa-solid fa-money-bill-transfer"></i>
+        Transfer
+    </a>
+
+    <a href="/admin">
+        <i class="fa-solid fa-user-shield"></i>
+        Admin
+    </a>
+
+    <a href="/ping">
+        <i class="fa-solid fa-network-wired"></i>
+        Ping Tool
+    </a>
+
+    <a href="/config">
+        <i class="fa-solid fa-gear"></i>
+        Config
+    </a>
+
+    <a href="/security-center">
+        <i class="fa-solid fa-shield-halved"></i>
+        Security Center
+    </a>
+
+    <hr>
+
+    <a href="/logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+
+</div>
+
+<!-- Main -->
+<div id="main" class="main">
+
+    <!-- Topbar -->
+    <div class="topbar d-flex justify-content-between align-items-center">
+
+        <button class="btn btn-outline-dark d-md-none" onclick="toggleSidebar()">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <h5 class="mb-0">
+            Welcome, {{ user }}
+        </h5>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if mode == "vulnerable" %}
+                <span class="badge bg-danger px-3 py-2">
+                    🔴 Vulnerable
+                </span>
+            {% else %}
+                <span class="badge bg-success px-3 py-2">
+                    🟢 Secure
+                </span>
+            {% endif %}
+
+            <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+                🔄 Switch Mode
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- Balance -->
+    <div class="card shadow p-4 mb-4">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+            <div>
+                <h5>
+                    <i class="fa-solid fa-wallet"></i>
+                    Account Balance
+                </h5>
+
+                <h2>₹ 1,25,000</h2>
+            </div>
+
+            <div class="text-end">
+                <span class="badge bg-primary px-3 py-2">
+                    <i class="fa-solid fa-credit-card"></i>
+                    Account No: XXXX4587
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Features -->
+    <div class="row g-3">
+
+        <div class="col-12 col-md-4">
+            <div class="card p-3">
+                <h6>
+                    <i class="fa-solid fa-user text-primary"></i>
+                    Profile
+                </h6>
+
+                <a href="/profile" class="btn btn-primary btn-sm mt-2">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card p-3">
+                <h6>
+                    <i class="fa-solid fa-money-bill-transfer text-success"></i>
+                    Transfer
+                </h6>
+
+                <a href="/transfer" class="btn btn-success btn-sm mt-2">
+                    Transfer
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card p-3">
+                <h6>
+                    <i class="fa-solid fa-user-shield text-warning"></i>
+                    Admin
+                </h6>
+
+                <a href="/admin" class="btn btn-warning btn-sm mt-2">
+                    Open
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="card p-3">
+                <h6>
+                    <i class="fa-solid fa-network-wired"></i>
+                    Ping Tool
+                </h6>
+
+                <a href="/ping" class="btn btn-dark btn-sm mt-2">
+                    Use
+                </a>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="card p-3">
+                <h6>
+                    <i class="fa-solid fa-gear"></i>
+                    Config
+                </h6>
+
+                <a href="/config" class="btn btn-secondary btn-sm mt-2">
+                    View
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Transactions -->
+    <div class="card shadow p-4 mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+
+            <h5 class="mb-2">
+                <i class="fa-solid fa-list"></i>
+                Recent Transactions
+            </h5>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Reference</th>
+                        <th>Status</th>
+                        <th class="text-end">Amount</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>09 May 2026</td>
+
+                        <td>
+                            <i class="fa-solid fa-arrow-up text-danger"></i>
+                            Transfer to Priya Patel
+                        </td>
+
+                        <td>TXN98231</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end text-danger fw-bold">
+                            - ₹2,000
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>08 May 2026</td>
+
+                        <td>
+                            <i class="fa-solid fa-arrow-down text-success"></i>
+                            Received from Rahul Sharma
+                        </td>
+
+                        <td>TXN91244</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end text-success fw-bold">
+                            + ₹5,000
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>07 May 2026</td>
+
+                        <td>
+                            <i class="fa-solid fa-bolt text-warning"></i>
+                            Electricity Bill Payment
+                        </td>
+
+                        <td>BILL72811</td>
+
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                Processing
+                            </span>
+                        </td>
+
+                        <td class="text-end text-danger fw-bold">
+                            - ₹1,500
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>06 May 2026</td>
+
+                        <td>
+                            <i class="fa-solid fa-cart-shopping text-primary"></i>
+                            Amazon Shopping
+                        </td>
+
+                        <td>SHOP33128</td>
+
+                        <td>
+                            <span class="badge bg-success">
+                                Completed
+                            </span>
+                        </td>
+
+                        <td class="text-end text-danger fw-bold">
+                            - ₹3,200
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- JS -->
+<script>
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("show");
+    }
+</script>
+
+</body>
+</html>

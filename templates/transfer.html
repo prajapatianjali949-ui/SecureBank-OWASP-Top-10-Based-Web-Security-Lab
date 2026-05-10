@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transfer | SecureBank</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body style="background-color:#f5f7fa;">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark px-3">
+        <span class="navbar-brand">🏦 SecureBank</span>
+
+        <div class="d-flex align-items-center gap-2">
+
+            {% if mode == "vulnerable" %}
+                <span class="badge bg-danger">🔴 Vulnerable</span>
+            {% else %}
+                <span class="badge bg-success">🟢 Secure</span>
+            {% endif %}
+
+            <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+                🔄 Switch Mode
+            </a>
+
+            <a href="/dashboard" class="btn btn-light btn-sm">Back</a>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+
+        <div class="card shadow p-4">
+            <h3>💸 Transfer Money</h3>
+            <hr>
+
+            <!-- FORM -->
+            <form method="POST">
+
+                <!-- CSRF TOKEN (SECURE MODE ONLY) -->
+                {% if mode == "secure" %}
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+                {% endif %}
+
+                <!-- RECEIVER DROPDOWN -->
+                <div class="mb-3">
+                    <label class="form-label">Select Receiver</label>
+                    <select name="to" class="form-control" required>
+                        <option value="">-- Select User --</option>
+                        {% for u in users %}
+                            <option value="{{ u[0] }}">{{ u[0] }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- AMOUNT -->
+                <div class="mb-3">
+                    <label class="form-label">Amount</label>
+                    <input type="number" name="amount" class="form-control" required>
+                </div>
+
+                <button class="btn btn-success">Transfer</button>
+            </form>
+
+            <!-- SUCCESS MESSAGE -->
+            {% if message %}
+            <div class="alert alert-success mt-3">
+                {{ message }}
+            </div>
+            {% endif %}
+
+            <!-- INFO -->
+            <div class="alert alert-warning mt-3" style="font-size: 13px;">
+                <strong>⚠ CSRF Explanation:</strong><br>
+
+                {% if mode == "vulnerable" %}
+                    • No CSRF protection → attacker can trigger unauthorized transfers<br>
+                    • Fake request can be auto-submitted from malicious site
+                {% else %}
+                    • CSRF token validates request authenticity<br>
+                    • Prevents unauthorized transactions
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

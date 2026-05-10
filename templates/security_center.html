@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Security Center | SecureBank</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#f4f6f9;
+        }
+
+        .card{
+            border-radius:15px;
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:translateY(-5px);
+            box-shadow:0px 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .topbar{
+            background:white;
+            padding:15px 25px;
+            box-shadow:0px 2px 10px rgba(0,0,0,0.1);
+        }
+
+    </style>
+
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar d-flex justify-content-between align-items-center">
+
+    <h4>
+        <i class="fa-solid fa-shield-halved text-primary"></i>
+        SecureBank Security Center
+    </h4>
+
+    <div class="d-flex gap-2">
+
+        {% if mode == "vulnerable" %}
+            <span class="badge bg-danger p-2">
+                🔴 Vulnerable Mode
+            </span>
+        {% else %}
+            <span class="badge bg-success p-2">
+                🟢 Secure Mode
+            </span>
+        {% endif %}
+
+        <a href="/toggle_mode" class="btn btn-outline-primary btn-sm">
+            🔄 Switch Mode
+        </a>
+
+        <a href="/dashboard" class="btn btn-dark btn-sm">
+            Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+<div class="container mt-4">
+
+    <!-- ALERT -->
+    <div class="alert alert-warning">
+
+        <strong>Security Monitoring:</strong>
+
+        This panel demonstrates real-world OWASP Top 10 vulnerabilities
+        and their secure implementations in banking applications.
+
+    </div>
+
+    <!-- OWASP SECTION -->
+    <div class="row g-4">
+
+        <!-- SQL -->
+        <div class="col-md-4">
+            <div class="card border-danger shadow h-100">
+                <div class="card-body">
+
+                    <h5 class="text-danger">
+                        <i class="fa-solid fa-database"></i>
+                        SQL Injection
+                    </h5>
+
+                    <p>
+                        Unsafe SQL queries may allow authentication bypass.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            Authentication Bypass Risk
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Parameterized Queries Enabled
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- XSS -->
+        <div class="col-md-4">
+            <div class="card border-warning shadow h-100">
+                <div class="card-body">
+
+                    <h5 class="text-warning">
+                        <i class="fa-solid fa-code"></i>
+                        Cross-Site Scripting
+                    </h5>
+
+                    <p>
+                        Malicious scripts can execute inside user browsers.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            Script Execution Possible
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Output Escaping Enabled
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- CSRF -->
+        <div class="col-md-4">
+            <div class="card border-primary shadow h-100">
+                <div class="card-body">
+
+                    <h5 class="text-primary">
+                        <i class="fa-solid fa-user-secret"></i>
+                        CSRF
+                    </h5>
+
+                    <p>
+                        Unauthorized requests may execute without user consent.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            No CSRF Protection
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            CSRF Validation Active
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCESS CONTROL -->
+        <div class="col-md-4">
+            <div class="card border-dark shadow h-100">
+                <div class="card-body">
+
+                    <h5>
+                        <i class="fa-solid fa-user-lock"></i>
+                        Broken Access Control
+                    </h5>
+
+                    <p>
+                        Unauthorized users may access admin functionality.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            Admin Exposure Risk
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Role Validation Enabled
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- COMMAND INJECTION -->
+        <div class="col-md-4">
+            <div class="card border-secondary shadow h-100">
+                <div class="card-body">
+
+                    <h5 class="text-secondary">
+                        <i class="fa-solid fa-terminal"></i>
+                        Command Injection
+                    </h5>
+
+                    <p>
+                        Unsafe command execution may compromise server systems.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            System Command Risk
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Input Sanitization Active
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <!-- MISCONFIG -->
+        <div class="col-md-4">
+            <div class="card border-info shadow h-100">
+                <div class="card-body">
+
+                    <h5 class="text-info">
+                        <i class="fa-solid fa-gear"></i>
+                        Security Misconfiguration
+                    </h5>
+
+                    <p>
+                        Sensitive server configuration may become exposed.
+                    </p>
+
+                    {% if mode == "vulnerable" %}
+                        <span class="badge bg-danger">
+                            Debug Exposure Detected
+                        </span>
+                    {% else %}
+                        <span class="badge bg-success">
+                            Secure Configuration Enabled
+                        </span>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SECURITY STATUS -->
+    <div class="card shadow p-4 mt-5">
+
+        <h5 class="mb-4">
+            <i class="fa-solid fa-chart-line text-success"></i>
+            Security Status Monitoring
+        </h5>
+
+        <label>Authentication Security</label>
+
+        <div class="progress mb-3" style="height:22px;">
+
+            {% if mode == "vulnerable" %}
+                <div class="progress-bar bg-danger" style="width:25%">
+                    Weak
+                </div>
+            {% else %}
+                <div class="progress-bar bg-success" style="width:95%">
+                    Strong
+                </div>
+            {% endif %}
+
+        </div>
+
+        <label>Input Validation</label>
+
+        <div class="progress mb-3" style="height:22px;">
+
+            {% if mode == "vulnerable" %}
+                <div class="progress-bar bg-warning" style="width:35%">
+                    Unsafe
+                </div>
+            {% else %}
+                <div class="progress-bar bg-success" style="width:90%">
+                    Protected
+                </div>
+            {% endif %}
+
+        </div>
+
+        <label>Server Protection</label>
+
+        <div class="progress" style="height:22px;">
+
+            {% if mode == "vulnerable" %}
+                <div class="progress-bar bg-danger" style="width:20%">
+                    Exposed
+                </div>
+            {% else %}
+                <div class="progress-bar bg-success" style="width:92%">
+                    Secured
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
